@@ -17,7 +17,8 @@ namespace simpleService.Controllers
         [Route("noParameters")]
         public ActionResult<ResultData> NoParameters()
         {
-            return new ResultData { ApplicationName = Environment.MachineName, Message = "No parameters" };
+            string header = Request.Headers.ContainsKey("XDemo") ? Request.Headers["XDemo"][0] : "";
+            return new ResultData { ApplicationName = Environment.MachineName, Message = "No parameters", Header = header };
         }
 
         // GET api/work/5
@@ -25,13 +26,15 @@ namespace simpleService.Controllers
         [Route("simpleParameters/{applicationName}/{message}")]
         public ActionResult<ResultData> SimpleParameters(string applicationName, string message)
         {
-            return new ResultData { ApplicationName = Environment.MachineName, Message = $"{message} from {applicationName}" };
+            string header = Request.Headers.ContainsKey("XDemo") ? Request.Headers["XDemo"][0] : "";
+            return new ResultData { ApplicationName = Environment.MachineName, Message = $"{message} from {applicationName}", Header=header };
         }
 
         // POST api/work
         [HttpPost()]
         [Route("complexParameter")]
         public ActionResult<ResultData> ComplexParameter([FromBody]ResultData data) {
+            data.Header = Request.Headers.ContainsKey("XDemo") ? Request.Headers["XDemo"][0] : "";
             data.ApplicationName = Environment.MachineName;
             data.Message = $"Thanks for sending {data.Message} from {data.ApplicationName}.  Here's a little something for you: {DateTime.Now.ToLongTimeString()}";
             return data;
@@ -43,6 +46,7 @@ namespace simpleService.Controllers
     {
         public string ApplicationName { get; set; }
         public string Message { get; set; }
+        public string Header { get; set; }
 
     }
 }
