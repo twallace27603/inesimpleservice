@@ -12,6 +12,7 @@ namespace simpleService.Controllers
     {
         public IActionResult Index()
         {
+            //Comment to trigger image rebuild.
             return View();
         }
 
