@@ -17,6 +17,7 @@ namespace simpleService.Controllers
         [Route("noParameters")]
         public ActionResult<ResultData> NoParameters()
         {
+                //Force commit
             string header = Request.Headers.ContainsKey("XDemo") ? Request.Headers["XDemo"][0] : "";
             return new ResultData { ApplicationName = Environment.MachineName, Message = "No parameters", Header = header };
         }
